@@ -1,0 +1,22 @@
+{
+  "name": "api-image-consult",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.17.0",
+    "@vladmandic/face-api": "^1.7.13",
+    "body-parser": "^1.20.2",
+    "canvas": "^2.11.2",
+    "express": "^4.18.3",
+    "mongoose": "^8.2.2",
+    "nodemon": "^3.1.0"
+  }
+}
