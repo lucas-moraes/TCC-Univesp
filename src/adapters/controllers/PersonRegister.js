@@ -1,5 +1,5 @@
-import { PersonDTO } from "../interfaces/personDTO.js";
-import { PersonRepository } from "../../adapters/repositories/PersonRepository.js";
+import {PersonDTO} from "../interfaces/personDTO.js";
+import {PersonRepository} from "../../adapters/repositories/PersonRepository.js";
 
 export class PersonRegister {
   static async execute(req, res, next) {
@@ -7,9 +7,8 @@ export class PersonRegister {
       const {name, wanted, imageBase64} = req.body;
       const imageBuffer = Buffer.from(imageBase64, "base64");
       const person = PersonDTO.build(name, wanted, imageBuffer);
-      const response =  PersonRepository.create(person);
-      
-      res.status(200).send(response);
+      await PersonRepository.create(person);
+      return res.status(201).send();
     } catch (error) {
       next(error);
     }

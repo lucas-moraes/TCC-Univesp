@@ -2,21 +2,34 @@ import {Person} from "../../entites/person.js";
 import {MongoDB} from "../../frameworks/mongoDB/index.js";
 
 export class PersonRepository {
-  static create(person) {
+  static async create(person) {
     const newPerson = new Person({
       name: person.name,
       wanted: person.wanted,
       image: person.image,
     });
 
-    newPerson
+    await newPerson
       .save()
       .then((response) => {
-        console.log("✅ Person created", response);
+        return response;
       })
       .catch((error) => {
         throw new ApiError("❌ Erro to create Person", 500);
       });
+  }
+
+  static async listAll() {
+    const resp = await Person
+      .find({})
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw new ApiError("❌ Erro to list Person", 500);
+      });
+
+    return resp;
   }
 
   static async delete() {

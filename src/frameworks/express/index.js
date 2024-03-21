@@ -3,8 +3,8 @@ import bodyParser from "body-parser";
 import {PersonRecognize} from "../../adapters/controllers/PersonRecognize.js";
 import {LoadModels} from "../faceRecognition/utils/loadModels.js";
 import {LoadImagesAndDescriptors} from "../faceRecognition/utils/loadImagesAndDescriptors.js";
-import {errorHandler} from "../common/Errorfunction.js";
-import {PersonList} from "../../adapters/controllers/PersonList.js";
+import {errorResponseHandler} from "../common/ResponseErrorHandler.js";
+import {PersonListAll} from "../../adapters/controllers/PersonListAll.js";
 import {PersonRegister} from "../../adapters/controllers/PersonRegister.js";
 import "@tensorflow/tfjs-node";
 
@@ -29,11 +29,11 @@ class App {
   #routes() {
     this.express.post("/person-recognize", PersonRecognize.execute);
     this.express.post("/person-register", PersonRegister.execute);
-    this.express.get("/person-list", PersonList.execute);
+    this.express.get("/person-list-all", PersonListAll.execute);
     this.express.get("/health-check", (req, res) => {
       return res.status(200).send({message: "Server is running."});
     });
-    this.express.use(errorHandler);
+    this.express.use(errorResponseHandler);
   }
 
   #expressJS() {

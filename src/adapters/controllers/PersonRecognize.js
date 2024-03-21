@@ -7,6 +7,9 @@ export class PersonRecognize {
       const img = req.body.imageBase64;
       const imageBuffer = Buffer.from(img, "base64");
       const response = await FaceRecognition.recognize(imageBuffer);
+
+
+      
       res.status(200).send(response);
     } catch (error) {
       next(error);
