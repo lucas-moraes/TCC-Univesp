@@ -4,7 +4,9 @@ import {ApiError} from "../common/ApiError.js";
 class MongoDB {
   static async connect() {
     mongoose
-      .connect("mongodb://test:abc@localhost:27017")
+      .connect("mongodb://olhosdajustica:senha123@localhost:27017", {
+        dbName: "olhosdajustica",
+      })
       .then(() => {
         console.log("🚀 MongoDB is running");
       })

@@ -1,27 +1,33 @@
 import faceapi from "@vladmandic/face-api";
+
 import canvas from "canvas";
-import Storage from "../storage/store.js";
-import {ApiError} from "../common/ApiError.js";
+import {PersonRepository} from "../../adapters/repositories/PersonRepository.js";
+import { ApiError } from "../common/ApiError.js";
 
 export class FaceRecognition {
   static async recognize(imageBuffer) {
+    const faceLibrary = await PersonRepository.listAll();
     const img = await canvas.loadImage(imageBuffer);
     const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
 
-    if (!detections) {
-      throw new ApiError("❗ Nenhum rosto encontrado na imagem.", 404);
-    }
+    let data;
+    for (const {_doc} of faceLibrary) {
+      const label = _doc._id.toString();
+      const img = await canvas.loadImage(_doc.image);
+      const detect = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+      data = new faceapi.LabeledFaceDescriptors(label, [detect.descriptor]);
+    };
 
-    const faceMatcher = new faceapi.FaceMatcher(
-      Storage.storage.map((item) => new faceapi.LabeledFaceDescriptors(item.label, [item.descriptor]))
-    );
+    const faceMatcher = new faceapi.FaceMatcher(data);
 
     const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
 
     if (bestMatch.label === "unknown") {
-      throw new ApiError("❗ Nenhum correspondente encontrado.", 404);
+      throw new ApiError("❗ No correspondents found.", 404);
     }
 
-    return {message: "Correspondente encontrado.", label: bestMatch.label};
+    const response = await PersonRepository.findById(bestMatch.label);
+
+    return response;
   }
 }

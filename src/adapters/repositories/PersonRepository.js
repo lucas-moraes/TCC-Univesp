@@ -20,8 +20,7 @@ export class PersonRepository {
   }
 
   static async listAll() {
-    const resp = await Person
-      .find({})
+    const resp = await Person.find({}, "name wanted image")
       .then((response) => {
         return response;
       })
@@ -32,14 +31,15 @@ export class PersonRepository {
     return resp;
   }
 
-  static async delete() {
-    const connect = await MongoDB.connect();
-    try {
-      const db = connect.db("persons");
-      const collection = db.collection("persons");
-      await collection.deleteMany({});
-    } catch (error) {
-      throw new ApiError("❌ Erro to delete Person", 500);
-    }
+  static async findById(id) {
+    const resp = await Person.findById(id, "name wanted")
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw new ApiError("❌ Erro to find Person", 500);
+      });
+
+    return resp;
   }
 }

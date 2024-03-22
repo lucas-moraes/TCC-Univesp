@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import {PersonRecognize} from "../../adapters/controllers/PersonRecognize.js";
 import {LoadModels} from "../faceRecognition/utils/loadModels.js";
-import {LoadImagesAndDescriptors} from "../faceRecognition/utils/loadImagesAndDescriptors.js";
 import {errorResponseHandler} from "../common/ResponseErrorHandler.js";
 import {PersonListAll} from "../../adapters/controllers/PersonListAll.js";
 import {PersonRegister} from "../../adapters/controllers/PersonRegister.js";
@@ -19,7 +18,6 @@ class App {
 
   async #toolsCharger() {
     await LoadModels.execute();
-    await LoadImagesAndDescriptors.execute();
   }
 
   #middlewares() {
