@@ -13,7 +13,7 @@
         }
     ],
     "env": {
-        "MONGOURL": "mongodb+srv://olhosdajustica:senha123@cluster0.1dwmnrd.mongodb.net/?retryWrites=true&w=majority",
-        "DBNAME": "olhosdajustica"
+        "MONGOURL": "MONGOURL",
+        "DBNAME": "MONGOURL"
     }
 }
