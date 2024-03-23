@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 import {ApiError} from "../common/ApiError.js";
-import dotenv from "dotenv";
 
 class MongoDB {
   static async connect() {
-    dotenv.config();
     mongoose
       .connect(process.env.MONGOURL, {
         dbName: process.env.DBNAME,

@@ -35,7 +35,7 @@ class App {
   }
 
   #expressJS() {
-    this.express.listen(3000, () => {
+    this.express.listen(process.env.PORT, () => {
       console.log("🚀 Server is running on port 3000");
     });
   }
