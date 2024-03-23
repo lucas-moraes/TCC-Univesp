@@ -10,7 +10,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "./src/frameworks/express/index.js"
+            "dest": "server.js"
         }
     ],
     "env": {
