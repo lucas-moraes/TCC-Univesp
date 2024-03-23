@@ -1,15 +1,19 @@
 {
     "version": 2,
     "builds": [
-      {
-        "src": "server.js",
-        "use": "@now/node"
-      }
+        {
+            "src": "server.js",
+            "use": "@now/node"
+        }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "server.js"
-      }
-    ]
-  }
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ],
+    "env": {
+        "MONGOURL": "mongodb+srv://olhosdajustica:senha123@cluster0.1dwmnrd.mongodb.net/?retryWrites=true&w=majority",
+        "DBNAME": "olhosdajustica"
+    }
+}
