@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import {ApiError} from "../common/ApiError.js";
+const mongoose = require("mongoose");
+const {ApiError} = require("../common/ApiError.js");
 
 class MongoDB {
   static async connect() {
@@ -16,4 +16,4 @@ class MongoDB {
   }
 }
 
-export {MongoDB};
+module.exports = {MongoDB};

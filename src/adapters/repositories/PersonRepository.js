@@ -1,7 +1,8 @@
-import {Person} from "../../entites/person.js";
-import {MongoDB} from "../../frameworks/mongoDB/index.js";
+const {Person} = require("../../entities/person.js");
+const {ApiError} = require("../../frameworks/common/ApiError.js");
+const { messageError } = require("../../frameworks/common/constants.js");
 
-export class PersonRepository {
+class PersonRepository {
   static async create(person) {
     const newPerson = new Person({
       name: person.name,
@@ -9,14 +10,16 @@ export class PersonRepository {
       image: person.image,
     });
 
-    await newPerson
+    const resp = await newPerson
       .save()
       .then((response) => {
         return response;
       })
       .catch((error) => {
-        throw new ApiError("❌ Erro to create Person", 500);
+        throw new ApiError(messageError.CREATE, 500);
       });
+
+    return resp;
   }
 
   static async listAll() {
@@ -25,7 +28,7 @@ export class PersonRepository {
         return response;
       })
       .catch((error) => {
-        throw new ApiError("❌ Erro to list Person", 500);
+        throw new ApiError(messageError.LIST, 500);
       });
 
     return resp;
@@ -37,9 +40,11 @@ export class PersonRepository {
         return response;
       })
       .catch((error) => {
-        throw new ApiError("❌ Erro to find Person", 500);
+        throw new ApiError(messageError.FIND, 500);
       });
 
     return resp;
   }
 }
+
+module.exports = {PersonRepository};

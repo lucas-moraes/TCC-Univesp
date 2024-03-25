@@ -1,8 +1,9 @@
-import {ApiError} from "../../common/ApiError.js";
-import canvas from "canvas";
-import faceapi from "@vladmandic/face-api";
 
-export async function ImageValidation(imageBuffer) {
+const {ApiError} = require("../../common/ApiError.js");
+const canvas = require("canvas");
+const faceapi = require("@vladmandic/face-api");
+
+async function ImageValidation(imageBuffer) {
   const img = await canvas.loadImage(imageBuffer);
   const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
 
@@ -10,3 +11,5 @@ export async function ImageValidation(imageBuffer) {
 
   return detections.descriptor;
 }
+
+module.exports = {ImageValidation};

@@ -1,4 +1,4 @@
-export class PersonDTO {
+class PersonDTO {
   static build(name, wanted, imageBuffer) {
     const person = {
       name,
@@ -9,3 +9,5 @@ export class PersonDTO {
     return person;
   }
 }
+
+module.exports = {PersonDTO};

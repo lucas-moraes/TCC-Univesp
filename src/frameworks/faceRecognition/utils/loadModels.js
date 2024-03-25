@@ -1,5 +1,6 @@
-import faceapi from "@vladmandic/face-api";
-import canvas from "canvas";
+
+const faceapi = require("@vladmandic/face-api");
+const canvas = require("canvas");
 
 class LoadModels {
   static async execute() {
@@ -12,4 +13,4 @@ class LoadModels {
   }
 }
 
-export {LoadModels};
+module.exports = {LoadModels};

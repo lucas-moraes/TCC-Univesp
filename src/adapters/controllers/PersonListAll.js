@@ -1,6 +1,6 @@
-import { PersonRepository } from "../repositories/PersonRepository.js";
+const {PersonRepository} = require("../repositories/PersonRepository.js");
 
-export class PersonListAll {
+class PersonListAll {
   static async execute(req, res, next) {
     try {
       const response = await PersonRepository.listAll();
@@ -10,3 +10,5 @@ export class PersonListAll {
     }
   }
 }
+
+module.exports = {PersonListAll};

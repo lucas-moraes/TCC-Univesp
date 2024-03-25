@@ -1,7 +1,9 @@
-import {ApiError} from "./ApiError.js";
+const {ApiError} = require("./ApiError.js");
 
-export const errorResponseHandler = (err, req, res, next) => {
+const errorResponseHandler = (err, req, res, next) => {
   if (err instanceof ApiError) {
     return res.status(err.status).send({message: err.message});
   }
 };
+
+module.exports = {errorResponseHandler};
