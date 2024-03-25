@@ -1,7 +1,7 @@
-import {FaceRecognition} from "../../frameworks/faceRecognition/index.js";
-import { ImageValidation } from "../../frameworks/faceRecognition/utils/ImageValidation.js";
+const {FaceRecognition} = require("../../frameworks/faceRecognition/index.js");
+const {ImageValidation} = require("../../frameworks/faceRecognition/utils/imageValidation.js");
 
-export class PersonRecognize {
+class PersonRecognize {
   static async execute(req, res, next) {
     try {
       const img = req.body.imageBase64;
@@ -16,3 +16,5 @@ export class PersonRecognize {
     }
   }
 }
+
+module.exports = {PersonRecognize};

@@ -1,6 +1,6 @@
-import App from "./src/frameworks/express/index.js";
-import {MongoDB} from "./src/frameworks/mongoDB/index.js";
-import dotenv from "dotenv";
+const App = require("./src/frameworks/express/index.js");
+const {MongoDB} = require("./src/frameworks/mongoDB/index.js");
+const dotenv = require("dotenv");
 
 class Server {
   constructor() {
@@ -10,8 +10,9 @@ class Server {
 
   async #mongoDb() {
     dotenv.config();
+    if(process.env.NODE_ENV === "test") return;
     await MongoDB.connect();
   }
-  
 }
-export default new Server();
+
+module.exports = new Server();

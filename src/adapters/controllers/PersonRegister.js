@@ -1,7 +1,7 @@
-import {PersonDTO} from "../interfaces/personDTO.js";
-import {PersonRepository} from "../../adapters/repositories/PersonRepository.js";
+const {PersonDTO} = require("../interfaces/personDTO.js");
+const {PersonRepository} = require("../../adapters/repositories/PersonRepository.js");
 
-export class PersonRegister {
+class PersonRegister {
   static async execute(req, res, next) {
     try {
       const {name, wanted, imageBase64} = req.body;
@@ -14,3 +14,5 @@ export class PersonRegister {
     }
   }
 }
+
+module.exports = {PersonRegister};

@@ -1,10 +1,11 @@
-import faceapi from "@vladmandic/face-api";
+const faceapi = require("@vladmandic/face-api");
+const canvas = require("canvas");
+const {PersonRepository} = require("../../adapters/repositories/PersonRepository.js");
+const {ApiError} = require("../../frameworks/common/ApiError.js");
+const {ImageFaceApiPrepare} = require("./utils/imageFaceApiPrepare.js");
+const {ImageFaceApiMatcher} = require("./utils/imageFaceApiMatcher.js");
 
-import canvas from "canvas";
-import {PersonRepository} from "../../adapters/repositories/PersonRepository.js";
-import { ApiError } from "../common/ApiError.js";
-
-export class FaceRecognition {
+class FaceRecognition {
   static async recognize(imageBuffer) {
     const faceLibrary = await PersonRepository.listAll();
     const img = await canvas.loadImage(imageBuffer);
@@ -12,15 +13,10 @@ export class FaceRecognition {
 
     let data;
     for (const {_doc} of faceLibrary) {
-      const label = _doc._id.toString();
-      const img = await canvas.loadImage(_doc.image);
-      const detect = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-      data = new faceapi.LabeledFaceDescriptors(label, [detect.descriptor]);
-    };
+      data = await ImageFaceApiPrepare(_doc);
+    }
 
-    const faceMatcher = new faceapi.FaceMatcher(data);
-
-    const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
+    const bestMatch = ImageFaceApiMatcher(data, detections);
 
     if (bestMatch.label === "unknown") {
       throw new ApiError("❗ No correspondents found.", 404);
@@ -31,3 +27,5 @@ export class FaceRecognition {
     return response;
   }
 }
+
+module.exports = {FaceRecognition};

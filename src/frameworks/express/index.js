@@ -1,11 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-import {PersonRecognize} from "../../adapters/controllers/PersonRecognize.js";
-import {LoadModels} from "../faceRecognition/utils/loadModels.js";
-import {errorResponseHandler} from "../common/ResponseErrorHandler.js";
-import {PersonListAll} from "../../adapters/controllers/PersonListAll.js";
-import {PersonRegister} from "../../adapters/controllers/PersonRegister.js";
-import "@tensorflow/tfjs-node";
+const express = require("express");
+const bodyParser = require("body-parser");
+const {PersonRecognize} = require("../../adapters/controllers/PersonRecognize.js");
+const {LoadModels} = require("../faceRecognition/utils/loadModels.js");
+const {errorResponseHandler} = require("../common/ResponseErrorHandler.js");
+const {PersonListAll} = require("../../adapters/controllers/PersonListAll.js");
+const {PersonRegister} = require("../../adapters/controllers/PersonRegister.js");
+require("@tensorflow/tfjs-node");
 
 class App {
   constructor() {
@@ -35,10 +35,11 @@ class App {
   }
 
   #expressJS() {
-    this.express.listen(process.env.PORT, () => {
-      console.log("🚀 Server is running on port 3000");
+    if(process.env.NODE_ENV === "test") return;
+    this.express.listen(process.env.PORT ? Number(process.env.PORT) : 3000, () => {
+      console.log(`🚀 Server is running on port ${process.env.PORT}`);
     });
   }
 }
 
-export default new App();
+module.exports = new App();
