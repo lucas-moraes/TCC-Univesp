@@ -6,6 +6,7 @@ const {messageError} = require("../src/frameworks/common/constants.js");
 const {personRegisterMock} = require("./mocks/personRegister.js");
 const {personRecognizeMock} = require("./mocks/personRecognize.js");
 const {LoadModels} = require("../src/frameworks/faceRecognition/utils/loadModels.js");
+const { ApiError } = require("../src/frameworks/common/ApiError.js");
 
 jest.mock("../src/entities/person.js");
 jest.mock("../src/frameworks/faceRecognition/utils/imageFaceApiPrepare.js", () => {
@@ -47,111 +48,148 @@ jest.mock("../src/frameworks/faceRecognition/utils/imageFaceApiPrepare.js", () =
 });
 jest.mock("../src/frameworks/faceRecognition/utils/imageFaceApiMatcher.js", () => {
   return {
-    ImageFaceApiMatcher: jest.fn().mockResolvedValue(
-      {
-        _label: "65ffc67a177f153e71415094",
-        _distance: 0,
-      }
-    ),
+    ImageFaceApiMatcher: jest.fn().mockResolvedValue({
+      _label: "65ffc67a177f153e71415094",
+      _distance: 0,
+    }),
   };
 });
 
-describe("CRUD test's - GET - /person-list-all - response", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    Person.find = jest.fn().mockResolvedValue(listAllMock);
-    response = await request(App.express).get("/person-list-all");
+describe("CRUD test's - GET - /person-list-all", () => {
+  describe("Test success", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.find = jest.fn().mockResolvedValue(listAllMock);
+      response = await request(App.express).get("/person-list-all");
+    });
+
+    it("should status return 200", async () => {
+      expect(response.status).toBe(200);
+    });
+    it("should body response be correct", async () => {
+      expect(response.body).toEqual(listAllMock);
+    });
   });
 
-  it("should status return 200", async () => {
-    expect(response.status).toBe(200);
-  });
-  it("should body response be correct", async () => {
-    expect(response.body).toEqual(listAllMock);
+  describe("Test exception", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.find = jest.fn().mockRejectedValue();
+      response = await request(App.express).get("/person-list-all");
+    });
+
+    it("should status return 500", async () => {
+      expect(response.status).toBe(500);
+    });
+    it("should body response be correct", async () => {
+      expect(response.body).toEqual({message: messageError.LIST});
+    });
   });
 });
 
-describe("CRUD test's - GET - /person-list-all - exception", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    Person.find = jest.fn().mockRejectedValue();
-    response = await request(App.express).get("/person-list-all");
+describe("CRUD test's - POST - /person-register", () => {
+  describe("Test success", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.prototype.save = jest.fn().mockResolvedValue();
+      response = await request(App.express).post("/person-register").send(personRegisterMock);
+    });
+
+    it("should status return 201", async () => {
+      expect(response.status).toBe(201);
+    });
   });
 
-  it("should status return 500", async () => {
-    expect(response.status).toBe(500);
-  });
-  it("should body response be correct", async () => {
-    expect(response.body).toEqual({message: messageError.LIST});
+  describe("Test exception", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.prototype.save = jest.fn().mockRejectedValue();
+      response = await request(App.express).post("/person-register").send(personRegisterMock);
+    });
+
+    it("should status return 500", async () => {
+      expect(response.status).toBe(500);
+    });
+    it("should body response be correct", async () => {
+      expect(response.body).toEqual({message: messageError.CREATE});
+    });
   });
 });
 
-describe("CRUD test's - POST - /person-register - response", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    Person.prototype.save = jest.fn().mockResolvedValue();
-    response = await request(App.express).post("/person-register").send(personRegisterMock);
-  });
-
-  it("should status return 201", async () => {
-    expect(response.status).toBe(201);
-  });
-});
-
-describe("CRUD test's - POST - /person-register - exception", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    Person.prototype.save = jest.fn().mockRejectedValue();
-    response = await request(App.express).post("/person-register").send(personRegisterMock);
-  });
-
-  it("should status return 500", async () => {
-    expect(response.status).toBe(500);
-  });
-  it("should body response be correct", async () => {
-    expect(response.body).toEqual({message: messageError.CREATE});
-  });
-});
-
-describe("CRUD test's - POST - /person-recognize - response", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    const imgBuffer = Buffer.from(listAllMock[0].image, "base64");
-    const data = [
-      {
-        _doc: {
-          _id: "65fef6673f95b8a5d644b0fa",
-          name: "Elun",
-          wanted: true,
-          image: imgBuffer,
+describe("CRUD test's - POST - /person-recognize", () => {
+  describe("Test success", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      const imgBuffer = Buffer.from(listAllMock[0].image, "base64");
+      const data = [
+        {
+          _doc: {
+            _id: "65fef6673f95b8a5d644b0fa",
+            name: "Elun",
+            wanted: true,
+            image: imgBuffer,
+          },
         },
-      },
-    ];
-    await LoadModels.execute();
-    Person.find = jest.fn().mockResolvedValue(data);
-    Person.findById = jest.fn().mockResolvedValue(listAllMock);
-    response = await request(App.express).post("/person-recognize").send(personRecognizeMock);
+      ];
+      await LoadModels.execute();
+      Person.find = jest.fn().mockResolvedValue(data);
+      Person.findById = jest.fn().mockResolvedValue(listAllMock);
+      response = await request(App.express).post("/person-recognize").send(personRecognizeMock);
+    });
+
+    it("should status return 200", async () => {
+      expect(response.status).toBe(200);
+    });
+  });
+
+  describe("Test exception", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.find = jest.fn().mockRejectedValue();
+      response = await request(App.express).post("/person-recognize").send(personRecognizeMock);
+    });
+
+    it("should status return 500", async () => {
+      expect(response.status).toBe(500);
+    });
+  });
+});
+
+describe("CRUD test's - GET - /health-check", () => {
+  let response;
+  beforeEach(async () => {
+    response = await request(App.express).get("/health-check");
   });
 
   it("should status return 200", async () => {
     expect(response.status).toBe(200);
   });
-});
+  it("should body response be correct", async () => {
+    expect(response.body).toEqual({message: "Server is running."});
+  });
+})
 
-describe("CRUD test's - POST - /person-recognize - exception", () => {
-  let response;
-  beforeEach(async () => {
-    jest.clearAllMocks();
-    Person.find = jest.fn().mockRejectedValue();
-    response = await request(App.express).post("/person-recognize").send(personRecognizeMock);
+describe("ApiError.js", () => {
+  it("Should return the error with the sended variables", () => {
+    const message = "Erro de teste";
+    const status = 400;
+    const error = new ApiError(message, status);
+
+    expect(error.message).toBe(message);
+    expect(error.status).toBe(status);
   });
 
-  it("should status return 500", async () => {
-    expect(response.status).toBe(500);
+  it("Should return the default status as 500 if no status is provided", () => {
+    const message = "Erro interno";
+    const error = new ApiError(message);
+
+    expect(error.message).toBe(message);
+    expect(error.status).toBe(500);
   });
 });
