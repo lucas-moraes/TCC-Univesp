@@ -5,6 +5,7 @@ const {LoadModels} = require("../faceRecognition/utils/loadModels.js");
 const {errorResponseHandler} = require("../common/ResponseErrorHandler.js");
 const {PersonListAll} = require("../../adapters/controllers/PersonListAll.js");
 const {PersonRegister} = require("../../adapters/controllers/PersonRegister.js");
+import cors from "cors";
 require("@tensorflow/tfjs-node");
 
 class App {
@@ -21,6 +22,7 @@ class App {
   }
 
   #middlewares() {
+    this.express.use(cors({origin: "*"}));
     this.express.use(bodyParser.json({limit: "50mb"}));
   }
 
