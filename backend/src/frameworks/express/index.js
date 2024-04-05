@@ -5,7 +5,7 @@ const {LoadModels} = require("../faceRecognition/utils/loadModels.js");
 const {errorResponseHandler} = require("../common/ResponseErrorHandler.js");
 const {PersonListAll} = require("../../adapters/controllers/PersonListAll.js");
 const {PersonRegister} = require("../../adapters/controllers/PersonRegister.js");
-import cors from "cors";
+const cors = require("cors");
 require("@tensorflow/tfjs-node");
 
 class App {
