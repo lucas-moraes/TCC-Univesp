@@ -1,23 +1,19 @@
+import {useState} from "react";
 import "./App.css";
-import Webcam from "react-webcam";
+import ContextApi from "./contextApi";
+import {FacialRecognition} from "./modules/FacialRecognition";
 
 function App() {
-  const videoConstraints = {
-    width: 300,
-    height: 300,
-    facingMode: "user",
+  const [imgSrc, setImgSrc] = useState(null);
+
+  const updateImgSrc = (imgSrc) => {
+    setImgSrc(imgSrc);
   };
 
   return (
-    <div className="container">
-      <Webcam
-        audio={false}
-        width={300}
-        height={300}
-        screenshotFormat="image/jpeg"
-        videoConstraints={videoConstraints}
-      />
-    </div>
+    <ContextApi.Provider value={{imgSrc, updateImgSrc}}>
+      <FacialRecognition />
+    </ContextApi.Provider>
   );
 }
 
