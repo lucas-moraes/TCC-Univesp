@@ -4,14 +4,3 @@
   padding: 2rem;
   text-align: center;
 }
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-video {
-  border-radius: 10px;
-}
