@@ -1,19 +1,26 @@
 .card-main-container {
-    display: flex;
-    gap: 30px;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: var(--color-four);
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--color-four);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .buttons-container {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.card-main-title {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--color-one);
+  ont-family: Roboto;
 }
