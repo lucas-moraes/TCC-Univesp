@@ -1,14 +1,17 @@
-import {forwardRef, useContext, useImperativeHandle, useRef} from "react";
+import {forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState} from "react";
 import Webcam from "react-webcam";
 import "./styles.css";
-import ContextApi from "../../../../../contextApi";
+import {ContextApi} from "../../../../../contextApi";
+import logo from "../../../../../assets/logo-200-200.png";
 
 export const Cam = forwardRef((props, ref) => {
+  const [isLoading, setIsLoading] = useState(true);
   const {imgSrc, updateImgSrc} = useContext(ContextApi);
   const webCamRef = useRef(null);
 
   const capture = () => {
-    const imageSrc = webCamRef.current.getScreenshot();
+    let imageSrc = webCamRef.current.getScreenshot();
+    imageSrc = imageSrc.replace("data:image/jpeg;base64,", "");
     updateImgSrc(imageSrc);
   };
 
@@ -23,24 +26,41 @@ export const Cam = forwardRef((props, ref) => {
     };
   });
 
-  console.log(Webcam)
+  const HandleUserMedia = () => {
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (!imgSrc) {
+      setIsLoading(true);
+    }
+  }, [imgSrc]);
 
   return (
     <div className="container">
-      {imgSrc && <img src={imgSrc} alt="captured" />}
+      {imgSrc && <img src={`data:image/jpeg;base64,${imgSrc}`} alt="captured" />}
       {!imgSrc && (
-        <Webcam
-          audio={false}
-          width={300}
-          height={300}
-          screenshotFormat="image/jpeg"
-          videoConstraints={{
-            width: 300,
-            height: 300,
-            facingMode: "user",
-          }}
-          ref={webCamRef}
-        />
+        <>
+          <Webcam
+            audio={false}
+            onUserMedia={HandleUserMedia}
+            width={300}
+            height={300}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{
+              width: 300,
+              height: 300,
+              facingMode: "user",
+            }}
+            ref={webCamRef}
+          />
+          {isLoading && <div className="webcam-loader-Container">
+            <img src={logo} alt="logo" className="logo" />
+            <div className="loaderItem">
+              <div className="loader"></div>
+            </div>
+          </div>}
+        </>
       )}
     </div>
   );
