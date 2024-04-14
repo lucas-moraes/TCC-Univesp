@@ -1,0 +1,27 @@
+.card-facial-management {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-four);
+    width: 1028px;
+    height: 900px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-facial-management-header-container {
+    display: flex;
+}
+
+.card-facial-management-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-three);
+    margin: 20px 0 0 20px;
+}
+
+.card-facial-management-body-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-direction: row;
+    margin: 20px;
+}

@@ -5,8 +5,11 @@
   flex-wrap: wrap;
 }
 
-img,
 video {
+  border-radius: 10px;
+}
+
+.web-cam-img {
   border-radius: 10px;
 }
 

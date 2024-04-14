@@ -38,7 +38,7 @@ export const Cam = forwardRef((props, ref) => {
 
   return (
     <div className="container">
-      {imgSrc && <img src={`data:image/jpeg;base64,${imgSrc}`} alt="captured" />}
+      {imgSrc && <img src={`data:image/jpeg;base64,${imgSrc}`} className="web-cam-img" alt="captured" />}
       {!imgSrc && (
         <>
           <Webcam
