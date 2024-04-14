@@ -1,14 +1,8 @@
 import "./App.css";
-import {ContextApiProvider} from "./contextApi";
-import {FacialRecognition} from "./modules/FacialRecognition";
+import {Routes} from "./routes";
 
 function App() {
-
-  return (
-    <ContextApiProvider>
-      <FacialRecognition />
-    </ContextApiProvider>
-  );
+  return <Routes />;
 }
 
 export default App;
