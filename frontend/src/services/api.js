@@ -12,9 +12,14 @@ class Api {
   }
 
   async post(endpoint, data) {
-    return this.api.post(endpoint, data).then((response) => {
-      return response.data;
-    });
+    return this.api
+      .post(endpoint, data)
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        return error.response;
+      });
   }
 
   async put(endpoint, data) {

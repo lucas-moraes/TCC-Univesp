@@ -6,6 +6,7 @@ const ContextApi = React.createContext();
 const ContextApiProvider = ({children}) => {
   const [consult, setConsult] = React.useState({});
   const [imgSrc, setImgSrc] = React.useState(null);
+  const [isSending, setIsSending] = React.useState(false);
 
   const updateImgSrc = (imgSrc) => {
     setImgSrc(imgSrc);
@@ -15,13 +16,17 @@ const ContextApiProvider = ({children}) => {
     setConsult(consult);
   };
 
+  const updateSending = (isSending) => {
+    setIsSending(isSending);
+  };
+
   const resetAll = () => {
     setConsult({});
     setImgSrc(null);
   };
 
   return (
-    <ContextApi.Provider value={{imgSrc, updateImgSrc, consult, updateConsult, resetAll}}>
+    <ContextApi.Provider value={{imgSrc, updateImgSrc, consult, updateConsult, isSending, updateSending, resetAll}}>
       {children}
     </ContextApi.Provider>
   );
