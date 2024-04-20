@@ -1,4 +1,4 @@
-.card-facial-management {
+.card-facial-management-container {
     display: flex;
     flex-direction: column;
     background-color: var(--color-four);
@@ -6,6 +6,7 @@
     height: 900px;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    padding: 20px
 }
 
 .card-facial-management-header-container {
@@ -16,12 +17,12 @@
     font-size: 24px;
     font-weight: bold;
     color: var(--color-three);
-    margin: 20px 0 0 20px;
 }
 
 .card-facial-management-body-container {
+    margin-top: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    flex-direction: row;
-    margin: 20px;
+    grid-gap: 20px;
+    justify-items: center;
 }

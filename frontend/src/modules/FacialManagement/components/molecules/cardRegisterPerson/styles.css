@@ -1,0 +1,19 @@
+.card-register-person-container {
+    display: flex;
+    margin: 20px 0;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.card-register-person-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.card-register-person-image{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

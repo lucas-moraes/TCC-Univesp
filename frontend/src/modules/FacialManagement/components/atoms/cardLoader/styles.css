@@ -1,0 +1,22 @@
+.card-loader-container {
+  width: 100%;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.card-loader-content {
+  width: 100%;
+  height: 102px;
+  border-radius: 10px;
+  background-color: var(--color-four);
+  animation: fadeInOut 1s infinite;
+  box-shadow: 0 0 7px 0px var(--color-three);
+}
