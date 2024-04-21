@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 
 const ContextApi = React.createContext();
 
 const ContextApiProvider = ({children}) => {
-  const [consult, setConsult] = React.useState({});
-  const [imgSrc, setImgSrc] = React.useState(null);
-  const [isSending, setIsSending] = React.useState(false);
+  const [consult, setConsult] = useState({});
+  const [imgSrc, setImgSrc] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const updateImgSrc = (imgSrc) => {
     setImgSrc(imgSrc);
@@ -20,13 +21,19 @@ const ContextApiProvider = ({children}) => {
     setIsSending(isSending);
   };
 
+  const updateRefresh = (refresh) => {
+    setRefresh(refresh);
+  };
+
   const resetAll = () => {
     setConsult({});
     setImgSrc(null);
   };
 
   return (
-    <ContextApi.Provider value={{imgSrc, updateImgSrc, consult, updateConsult, isSending, updateSending, resetAll}}>
+    <ContextApi.Provider
+      value={{imgSrc, updateImgSrc, consult, updateConsult, isSending, updateSending, refresh, updateRefresh, resetAll}}
+    >
       {children}
     </ContextApi.Provider>
   );

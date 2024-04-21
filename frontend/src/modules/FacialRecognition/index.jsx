@@ -2,7 +2,6 @@ import {useEffect, useRef, useState} from "react";
 import API from "../../services/api";
 import {CardMain} from "./components/molecules/CardMain";
 import {Loader} from "./components/atoms/Loader";
-import { ContextApiProvider } from "../../contextApi";
 
 export const FacialRecognition = () => {
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -18,16 +17,16 @@ export const FacialRecognition = () => {
   }
 
   useEffect(() => {
-    if(!callApi.current){
+    if (!callApi.current) {
       callApi.current = true;
       ConnectToApi();
     }
   }, []);
 
   return (
-    <ContextApiProvider>
+    <>
       <Loader hide={isApiConnected} />
       {isApiConnected && <CardMain />}
-    </ContextApiProvider>
+    </>
   );
 };

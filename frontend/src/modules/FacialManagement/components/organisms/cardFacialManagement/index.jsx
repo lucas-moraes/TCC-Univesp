@@ -5,7 +5,6 @@ import {CardRegisterPerson} from "../../molecules/cardRegisterPerson";
 import {CardLoader} from "../../atoms/cardLoader";
 
 export const CardFacialManagement = ({list}) => {
-  console.log("=> ", list);
   return (
     <div className="card-facial-management-container">
       <div className="card-facial-management-header-container">
