@@ -12,7 +12,6 @@
   border: 1px solid;
   border-color: var(--color-three);
   background-color: var(--color-four);
-  margin: 5px;
 }
 
 .card-persons-header-container {
@@ -28,4 +27,11 @@
   justify-content: center;
   align-items: baseline;
   padding: 10px;
+}
+
+.card-person-name{
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

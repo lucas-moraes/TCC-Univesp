@@ -12,15 +12,21 @@ export const CardMain = () => {
   const context = useContext(ContextApi);
 
   const sendToRecognition = async () => {
-    const resp = await API.post("/person-recognize", {imageBase64: context.imgSrc}).then((response) => {
-      return response.data;
-    }).catch((error) => {
-      return error.response.data;
-    })
+    context.updateSending(true);
+    const resp = await API.post("/person-recognize", {imageBase64: context.imgSrc})
+      .then((response) => {
+        return response;
+      })
 
-    if (resp.status === 200) context.updateConsult({name: resp.name, wanted: resp.wanted, status: resp.status});
+    if (resp.status === 200) {
+      context.updateConsult({name: resp.data.name, wanted: resp.data.wanted, status: resp.status});
+    }
+    
+    if (resp.status !== 200) {
+      context.updateConsult({message: resp.data.message, status: resp.status});
+    }
 
-    if (resp.status !== 200) context.updateConsult({name: resp.message, wanted: false, status: resp.status});
+    context.updateSending(false);
   };
 
   return (
@@ -28,15 +34,15 @@ export const CardMain = () => {
       <div className="card-main-title">Reconhecimento Facial</div>
       <Cam ref={camRef} />
       <div className="response-container">
-        {context?.consult?.status === 200 && (
+        {Object.keys(context?.consult).length !== 0 && context?.consult?.status === 200 && (
           <div className="response-success">
-            <p>Nome: {context?.consult?.name}</p>
-            <p>Procurado: {context?.consult?.wanted ? "Sim" : "Não"}</p>
+            <span><b>Nome</b>: {context?.consult?.name}</span>
+            <span><b>Procurado</b>: {context?.consult?.wanted ? "Sim" : "Não"}</span>
           </div>
         )}
-        {context?.consult?.status !== 200 && (
+        {Object.keys(context?.consult).length !== 0 && context?.consult?.status !== 200 && (
           <div className="response-success">
-            <p>{context?.consult?.name}</p>
+            <span>{context?.consult?.message}</span>
           </div>
         )}
       </div>
@@ -44,7 +50,11 @@ export const CardMain = () => {
         {!context.imgSrc && <ButtonCam onClick={() => camRef.current.capture()} />}
         {context.imgSrc && (
           <>
-            <ButtonClose onClick={() => {camRef.current.reset(), context.resetAll()}} />
+            <ButtonClose
+              onClick={() => {
+                camRef.current.reset(), context.resetAll();
+              }}
+            />
             <ButtonSend onClick={sendToRecognition} />
           </>
         )}

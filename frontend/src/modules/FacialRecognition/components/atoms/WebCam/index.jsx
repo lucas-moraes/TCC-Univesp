@@ -6,7 +6,7 @@ import logo from "../../../../../assets/logo-200-200.png";
 
 export const Cam = forwardRef((props, ref) => {
   const [isLoading, setIsLoading] = useState(true);
-  const {imgSrc, updateImgSrc} = useContext(ContextApi);
+  const {imgSrc, isSending, updateImgSrc} = useContext(ContextApi);
   const webCamRef = useRef(null);
 
   const capture = () => {
@@ -28,16 +28,27 @@ export const Cam = forwardRef((props, ref) => {
 
   const HandleUserMedia = () => {
     setIsLoading(false);
-  }
+  };
 
   useEffect(() => {
     if (!imgSrc) {
       setIsLoading(true);
     }
+    navigator.mediaDevices.getUserMedia({video: true});
   }, [imgSrc]);
 
   return (
     <div className="container">
+      {isSending && (
+        <div className="overflow">
+          <div className="webcam-loader-Container">
+            <img src={logo} alt="logo" className="logo" />
+            <div className="loaderItem">
+              <div className="loader"></div>
+            </div>
+          </div>
+        </div>
+      )}
       {imgSrc && <img src={`data:image/jpeg;base64,${imgSrc}`} className="web-cam-img" alt="captured" />}
       {!imgSrc && (
         <>
@@ -54,12 +65,14 @@ export const Cam = forwardRef((props, ref) => {
             }}
             ref={webCamRef}
           />
-          {isLoading && <div className="webcam-loader-Container">
-            <img src={logo} alt="logo" className="logo" />
-            <div className="loaderItem">
-              <div className="loader"></div>
+          {isLoading && (
+            <div className="webcam-loader-Container">
+              <img src={logo} alt="logo" className="logo" />
+              <div className="loaderItem">
+                <div className="loader"></div>
+              </div>
             </div>
-          </div>}
+          )}
         </>
       )}
     </div>

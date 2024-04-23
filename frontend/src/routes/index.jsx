@@ -1,6 +1,7 @@
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import {FacialRecognition} from "../modules/FacialRecognition";
 import {FacialManagement} from "../modules/FacialManagement";
+import {ContextApiProvider} from "../contextApi";
 
 const routes = createBrowserRouter([
   {
@@ -14,5 +15,9 @@ const routes = createBrowserRouter([
 ]);
 
 export const Routes = () => {
-  return <RouterProvider router={routes} />;
+  return (
+    <ContextApiProvider>
+      <RouterProvider router={routes} />
+    </ContextApiProvider>
+  );
 };
