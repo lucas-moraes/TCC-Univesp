@@ -64,6 +64,7 @@ export const Cam = forwardRef((props, ref) => {
               facingMode: "user",
             }}
             ref={webCamRef}
+            mirrored={true}
           />
           {isLoading && (
             <div className="webcam-loader-Container">
