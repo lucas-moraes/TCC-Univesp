@@ -19,7 +19,7 @@ class FaceRecognition {
     const bestMatch = ImageFaceApiMatcher(data, detections);
 
     if (bestMatch.label === "unknown") {
-      throw new ApiError("❗ No correspondents found.", 404);
+      throw new ApiError("❗ Correspondente não encontrado.", 404);
     }
 
     const response = await PersonRepository.findById(bestMatch.label);
