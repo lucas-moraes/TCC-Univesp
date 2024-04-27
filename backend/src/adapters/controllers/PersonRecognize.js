@@ -4,6 +4,7 @@ const {ImageValidation} = require("../../frameworks/faceRecognition/utils/imageV
 class PersonRecognize {
   static async execute(req, res, next) {
     try {
+      console.info("ℹ️  PersonRecognize called");
       const img = req.body.imageBase64;
       const imageBuffer = Buffer.from(img, "base64");
       await ImageValidation(imageBuffer);
@@ -12,6 +13,7 @@ class PersonRecognize {
 
       res.status(200).send(response);
     } catch (error) {
+      console.error("❌  PersonRecognize error", error);
       next(error);
     }
   }
