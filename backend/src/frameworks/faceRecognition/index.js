@@ -7,6 +7,7 @@ const {ImageFaceApiMatcher} = require("./utils/imageFaceApiMatcher.js");
 
 class FaceRecognition {
   static async recognize(imageBuffer) {
+    console.info("ℹ️  FaceRecognition called");
     const faceLibrary = await PersonRepository.listAll();
     const img = await canvas.loadImage(imageBuffer);
     const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
