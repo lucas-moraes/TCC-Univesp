@@ -14,6 +14,9 @@ export const FacialManagement = () => {
         ListAll();
       }
     });
+
+    const html = document.querySelector("html");
+    html.style.height = "auto";
   }
 
   async function ListAll() {
