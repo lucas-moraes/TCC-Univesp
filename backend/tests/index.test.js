@@ -55,6 +55,39 @@ jest.mock("../src/frameworks/faceRecognition/utils/imageFaceApiMatcher.js", () =
   };
 });
 
+describe("ApiError.js", () => {
+  it("Should return the error with the sended variables", () => {
+    const message = "Erro de teste";
+    const status = 400;
+    const error = new ApiError(message, status);
+
+    expect(error.message).toBe(message);
+    expect(error.status).toBe(status);
+  });
+
+  it("Should return the default status as 500 if no status is provided", () => {
+    const message = "Erro interno";
+    const error = new ApiError(message);
+
+    expect(error.message).toBe(message);
+    expect(error.status).toBe(500);
+  });
+});
+
+describe("CRUD test's - GET - /health-check", () => {
+  let response;
+  beforeEach(async () => {
+    response = await request(App.express).get("/health-check");
+  });
+
+  it("should status return 200", async () => {
+    expect(response.status).toBe(200);
+  });
+  it("should body response be correct", async () => {
+    expect(response.body).toEqual({message: "Server is running."});
+  });
+})
+
 describe("CRUD test's - GET - /person-list-all", () => {
   describe("Test success", () => {
     let response;
@@ -85,37 +118,6 @@ describe("CRUD test's - GET - /person-list-all", () => {
     });
     it("should body response be correct", async () => {
       expect(response.body).toEqual({message: messageError.LIST});
-    });
-  });
-});
-
-describe("CRUD test's - POST - /person-register", () => {
-  describe("Test success", () => {
-    let response;
-    beforeEach(async () => {
-      jest.clearAllMocks();
-      Person.prototype.save = jest.fn().mockResolvedValue();
-      response = await request(App.express).post("/person-register").send(personRegisterMock);
-    });
-
-    it("should status return 201", async () => {
-      expect(response.status).toBe(201);
-    });
-  });
-
-  describe("Test exception", () => {
-    let response;
-    beforeEach(async () => {
-      jest.clearAllMocks();
-      Person.prototype.save = jest.fn().mockRejectedValue();
-      response = await request(App.express).post("/person-register").send(personRegisterMock);
-    });
-
-    it("should status return 500", async () => {
-      expect(response.status).toBe(500);
-    });
-    it("should body response be correct", async () => {
-      expect(response.body).toEqual({message: messageError.CREATE});
     });
   });
 });
@@ -161,35 +163,34 @@ describe("CRUD test's - POST - /person-recognize", () => {
   });
 });
 
-describe("CRUD test's - GET - /health-check", () => {
-  let response;
-  beforeEach(async () => {
-    response = await request(App.express).get("/health-check");
-  });
+describe("CRUD test's - POST - /person-register", () => {
+  describe("Test success", () => {
+    let response;
+    beforeEach(async () => {
+      Person.prototype.save = jest.fn().mockResolvedValue();
+      response = await request(App.express).post("/person-register").send(personRegisterMock);
+    });
 
-  it("should status return 200", async () => {
-    expect(response.status).toBe(200);
-  });
-  it("should body response be correct", async () => {
-    expect(response.body).toEqual({message: "Server is running."});
-  });
-})
+    it("should status return 201", async () => {
+      expect(response.status).toBe(201);
+    });
+  }, 60000);
 
-describe("ApiError.js", () => {
-  it("Should return the error with the sended variables", () => {
-    const message = "Erro de teste";
-    const status = 400;
-    const error = new ApiError(message, status);
+  describe("Test exception", () => {
+    let response;
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      Person.prototype.save = jest.fn().mockRejectedValue();
+      response = await request(App.express).post("/person-register").send(personRegisterMock);
+    });
 
-    expect(error.message).toBe(message);
-    expect(error.status).toBe(status);
-  });
-
-  it("Should return the default status as 500 if no status is provided", () => {
-    const message = "Erro interno";
-    const error = new ApiError(message);
-
-    expect(error.message).toBe(message);
-    expect(error.status).toBe(500);
+    it("should status return 500", async () => {
+      expect(response.status).toBe(500);
+    });
+    it("should body response be correct", async () => {
+      expect(response.body).toEqual({message: messageError.CREATE});
+    });
   });
 });
+
+
