@@ -4,6 +4,7 @@ const {PersonRepository} = require("../../adapters/repositories/PersonRepository
 const {ApiError} = require("../../frameworks/common/ApiError.js");
 const {ImageFaceApiPrepare} = require("./utils/imageFaceApiPrepare.js");
 const {ImageFaceApiMatcher} = require("./utils/imageFaceApiMatcher.js");
+const {LogReport} = require("../../frameworks/common/logReport.js");
 
 class FaceRecognition {
   static async recognize(imageBuffer) {
