@@ -67,6 +67,9 @@ Neste trabalho, apresentamos a proposta de desenvolvimento de um sistema inovado
 
 ---
 
+![https://www.youtube.com/watch?v=tkwXKrleXkk](https://github.com/lucas-moraes/TCC-univesp/assets/50468352/9ffdf483-e4ba-4122-9a2c-303f230e2710)
+
+
 <h4>Como rodar o projeto</h4>
 Para rodar o projeto será necessário utilizar algumas ferramentas:
 
