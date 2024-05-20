@@ -31,6 +31,9 @@ Neste trabalho, apresentamos a proposta de desenvolvimento de um sistema inovado
 <p>A estrutura do projeto é organizada conforme imagem abaixo: </p>
 <img src="https://github.com/lucas-moraes/TCC-univesp/assets/50468352/8d2a3ca4-88c2-4613-a4e0-3e6cc3afaced" />
 
+<h2>Cobertura de testes</h2>
+![Captura de tela de 2024-05-20 11-55-42](https://github.com/lucas-moraes/TCC-univesp/assets/50468352/cde991be-28d6-401b-9a79-53f764caae8a)
+
 </details>
 
 ---
